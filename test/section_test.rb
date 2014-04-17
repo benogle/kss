@@ -46,3 +46,35 @@ comment
   end
 
 end
+
+class MarkupSectionTest < Kss::Test
+
+  def setup
+    @comment_text = <<comment
+# Form Button
+
+Your standard form button.
+
+Markup:
+<span class="button ${modifiers}">Example</span>
+<span class="other-stuff">Other stuff</span>
+
+:hover    - Highlights when hovering.
+:disabled - Dims the button when disabled.
+.primary  - Indicates button is the primary action.
+.smaller  - A smaller button
+
+Styleguide 2.1.1.
+comment
+
+    @section = Kss::Section.new(@comment_text, 'example.css')
+  end
+
+  test "parses the description" do
+    assert_equal "# Form Button\n\nYour standard form button.", @section.description
+  end
+
+  test "parses the markup" do
+    assert_equal "<span class=\"button ${modifiers}\">Example</span>\n<span class=\"other-stuff\">Other stuff</span>", @section.markup
+  end
+end

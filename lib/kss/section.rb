@@ -46,7 +46,8 @@ module Kss
     def description
       comment_sections.reject do |section|
         section == section_comment ||
-        section == modifiers_comment
+        section == modifiers_comment ||
+        section == markup_comment
       end.join("\n\n")
     end
 
@@ -76,6 +77,10 @@ module Kss
       modifiers
     end
 
+    def markup
+      markup_comment.strip.sub(/^Markup:/i, '').strip
+    end
+
   private
 
     def section_comment
@@ -88,6 +93,12 @@ module Kss
       comment_sections[1..-1].reject do |section|
         section == section_comment
       end.last
+    end
+
+    def markup_comment
+      comment_sections.find do |text|
+        text =~ MARKUP_PATTERN
+      end.to_s
     end
   end
 end
