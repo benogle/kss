@@ -23,6 +23,10 @@ comment
     assert_equal "# Form Button\n\nYour standard form button.", @section.description
   end
 
+  test "parses the markup" do
+    assert_equal "", @section.markup
+  end
+
   test "parses the modifiers" do
     assert_equal 4, @section.modifiers.size
   end
